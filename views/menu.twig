@@ -6,7 +6,7 @@
     <ul class="{% if mobile %}
             flex flex-col space-y-1 py-2
             {% elseif depth > 1 %}
-            absolute left-0 top-full bg-white shadow-lg rounded py-2 mt-2 w-48 z-50 space-y-1
+            absolute left-0 top-full bg-white shadow-lg rounded py-2 w-48 z-50 space-y-1
             {% else %}
             flex gap-6 text-sm font-medium
             {% endif %}">
@@ -23,11 +23,12 @@
                 @mouseleave="open = false"
                 {% endif %}
             >
-                <div class="flex items-center justify-between px-4 py-2 {% if mobile %}hover:bg-green-50{% endif %}">
+                <div class="flex items-center justify-between px-4 {{ depth > 1 ? 'py-2' : 'py-5' }} {% if mobile %}hover:bg-green-50{% endif %}">
                     <a
                         href="{{ item.link }}"
                         target="{{ item.target }}"
                         class="block flex-1
+                        {{ depth > 1 ? 'pb-0' : 'pb-1' }}
                         {% if mobile %}
                             text-zinc-700
                         {% elseif depth > 1 %}
