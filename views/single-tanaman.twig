@@ -18,6 +18,17 @@
 		{{ post.content }}
 	</div>
 
+	{% set terms = post.terms('jenis_tanaman') %}
+	{% if terms %}
+		<p class="text-sm text-green-600 mb-1 italic">
+			{% for term in terms %}
+				<a href="{{ term.link }}" class="hover:underline hover:text-green-600">
+					{{ term.name }}
+				</a>{% if not loop.last %}, {% endif %}
+			{% endfor %}
+		</p>
+	{% endif %}
+
 	<a href="{{ site.url }}/tanaman" class="inline-block mt-6 text-green-600 hover:underline text-sm">← Kembali ke daftar tanaman</a>
 </article>
 {% endblock %}
