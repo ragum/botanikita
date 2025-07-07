@@ -1,6 +1,8 @@
 <?php
 
 use Timber\Site;
+use Botanikita\Routes\PageRoutes;
+use Botanikita\Routes\TaxonomyRoutes;
 
 /**
  * Class StarterSite
@@ -154,15 +156,15 @@ class StarterSite extends Site {
     */
 
     public function override_template($template) {
-        $context = Timber::context();
+		$template = TaxonomyRoutes::handle($template);
+		if ($template === false) return false;
 
-        if (is_tax('jenis_tanaman')) {
-            $context['term'] = Timber::get_term();
-            Timber::render(['taxonomy-jenis-tanaman.twig', 'taxonomy.twig'], $context);
-            return false; // Supaya WP tidak lanjut pakai template default
-        }
+		$template = PageRoutes::handle($template);
+		if ($template === false) return false;
 
-        return $template;
-    }
+		// fallback ke default WP template loader
+		return $template;
+	}
+
 
 }
