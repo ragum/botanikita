@@ -1,0 +1,27 @@
+{% extends "base.twig" %}
+
+{% block content %}
+<section class="bg-green-50 py-16">
+    <div class="max-w-6xl mx-auto px-4 text-center mb-10">
+        <h1 class="text-3xl font-bold text-green-800">Tanaman Hias</h1>
+        <p class="text-zinc-600 mt-2">Koleksi tanaman dari admin WordPress 🌿</p>
+    </div>
+
+    {% set tanaman = Timber::get_posts({ post_type: 'tanaman', posts_per_page: -1 }) %}
+
+    <div class="grid gap-6 md:grid-cols-3 px-4 max-w-6xl mx-auto">
+        {% for post in tanaman %}
+            <div class="bg-white rounded-lg shadow p-4 hover:shadow-lg transition">
+                {% if post.thumbnail %}
+                    <img src="{{ post.thumbnail.src('medium') }}" alt="{{ post.title }}" class="rounded w-full h-48 object-cover mb-4">
+                {% endif %}
+                <h3 class="text-lg font-semibold text-green-800">{{ post.title }}</h3>
+                <p class="text-sm text-zinc-600 mt-1">
+                    {{ post.meta('deskripsi')|length > 100 ? post.meta('deskripsi')[:100] ~ '…' : post.meta('deskripsi') }}
+                </p>
+                <a href="{{ post.link }}" class="inline-block mt-2 text-green-600 hover:underline text-sm">Lihat Detail →</a>
+            </div>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}
