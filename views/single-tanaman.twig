@@ -29,6 +29,18 @@
 		</p>
 	{% endif %}
 
-	<a href="{{ site.url }}/tanaman" class="inline-block mt-6 text-green-600 hover:underline text-sm">← Kembali ke daftar tanaman</a>
+	<a href="/" id="kembali-link" class="inline-block mt-6 text-green-600 hover:underline text-sm">
+		← Kembali
+	</a>
 </article>
+<script>
+	document.addEventListener('DOMContentLoaded', function () {
+		const ref = sessionStorage.getItem('tanaman_referrer');
+		if (ref) {
+			document.getElementById('kembali-link').setAttribute('href', ref);
+		} else {
+			document.getElementById('kembali-link').setAttribute('href', '/tanaman');
+		}
+	});
+</script>
 {% endblock %}

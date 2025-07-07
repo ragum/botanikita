@@ -41,4 +41,8 @@
 		{% include 'partial/pagination.twig' with { pagination: posts.pagination({show_all: false}) } %}
 	{% endif %}
 </section>
+<script>
+ 	sessionStorage.setItem('tanaman_referrer', window.location.href);
+</script>
+
 {% endblock %}
