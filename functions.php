@@ -28,5 +28,27 @@ add_action('init', function () {
 	]);
 });
 
+add_action('init', function () {
+	register_taxonomy('jenis_tanaman', 'tanaman', [
+		'labels' => [
+			'name' => 'Jenis Tanaman',
+			'singular_name' => 'Jenis Tanaman',
+		],
+		'public' => true,
+		'hierarchical' => true, // mirip kategori, bukan tag
+		'rewrite' => ['slug' => 'jenis-tanaman'],
+		'show_in_rest' => true,
+	]);
+});
+
+add_filter('timber/context', function ($context) {
+    $context['term'] = Timber::get_term();
+    return $context;
+});
+
+add_filter('timber/twig/environment/options', function ($options) {
+    $options['autoescape'] = false;
+    return $options;
+});
 
 new StarterSite();

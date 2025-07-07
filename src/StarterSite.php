@@ -15,6 +15,9 @@ class StarterSite extends Site {
 		add_filter( 'timber/twig', array( $this, 'add_to_twig' ) );
 		add_filter( 'timber/twig/environment/options', [ $this, 'update_twig_environment_options' ] );
 
+        // Custom template for taxonomy
+        add_filter('template_include', [$this, 'override_template']);
+
 		parent::__construct();
 	}
 
@@ -142,4 +145,24 @@ class StarterSite extends Site {
 
 	    return $options;
 	}
+
+    // Override the template for taxonomy 'jenis_tanaman'
+    /**
+     * Override the template for taxonomy 'jenis_tanaman'.
+     * @param string $template The current template.
+     * @return string|bool The overridden template or false to stop further processing.
+    */
+
+    public function override_template($template) {
+        $context = Timber::context();
+
+        if (is_tax('jenis_tanaman')) {
+            $context['term'] = Timber::get_term();
+            Timber::render(['taxonomy-jenis-tanaman.twig', 'taxonomy.twig'], $context);
+            return false; // Supaya WP tidak lanjut pakai template default
+        }
+
+        return $template;
+    }
+
 }
