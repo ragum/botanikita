@@ -14,4 +14,19 @@ Timber\Timber::init();
 // Sets the directories (inside your theme) to find .twig files.
 Timber::$dirname = [ 'templates', 'views' ];
 
+add_action('init', function () {
+	register_post_type('tanaman', [
+		'labels' => [
+			'name' => 'Tanaman',
+			'singular_name' => 'Tanaman'
+		],
+		'public' => true,
+		'has_archive' => true,
+		'rewrite' => ['slug' => 'tanaman'],
+		'show_in_rest' => true,
+		'supports' => ['title', 'editor', 'thumbnail']
+	]);
+});
+
+
 new StarterSite();
