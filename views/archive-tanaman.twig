@@ -42,6 +42,32 @@
 			</div>
 		{% endfor %}
 	</div>
+	{% set pagination = posts.pagination %}
+	{% if pagination.pages > 1 %}
+		<div class="mt-12 flex justify-center">
+			<nav class="flex space-x-2 text-sm">
+				{% if pagination.prev %}
+					<a href="{{ pagination.prev.link }}" class="px-3 py-1 rounded bg-green-100 text-green-800 hover:bg-green-200">← Sebelumnya</a>
+				{% endif %}
+
+				{% for page in pagination.pages %}
+					<a href="{{ page.link }}"
+						class="px-3 py-1 rounded 
+						{% if page.current %}
+							bg-green-700 text-white
+						{% else %}
+							bg-green-100 text-green-800 hover:bg-green-200
+						{% endif %}">
+						{{ page.title }}
+					</a>
+				{% endfor %}
+
+				{% if pagination.next %}
+					<a href="{{ pagination.next.link }}" class="px-3 py-1 rounded bg-green-100 text-green-800 hover:bg-green-200">Selanjutnya →</a>
+				{% endif %}
+			</nav>
+		</div>
+	{% endif %}
 </section>
 
 <script>

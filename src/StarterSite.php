@@ -162,6 +162,15 @@ class StarterSite extends Site {
 		$template = PageRoutes::handle($template);
 		if ($template === false) return false;
 
+		if ( is_post_type_archive('tanaman') ) {
+			$context = Timber::context();
+			global $wp_query;
+			$context['posts'] = new Timber\PostQuery($wp_query);
+
+			Timber::render('archive-tanaman.twig', $context);
+			return false;
+		}
+
 		// fallback ke default WP template loader
 		return $template;
 	}

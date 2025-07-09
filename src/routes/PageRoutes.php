@@ -1,25 +1,32 @@
 <?php
 
 namespace Botanikita\Routes;
-
 use Timber\Timber;
 
 class PageRoutes {
 	public static function handle($template) {
 		if (is_page('tanaman-hias')) {
 			$context = Timber::context();
-			$context['posts'] = Timber::get_posts([
-				'post_type' => 'tanaman',
-				'posts_per_page' => -1,
-			]);
+
+			$paged = get_query_var('paged') ?: 1;
+
+			$args = [
+                'post_type' => 'tanaman',
+                'posts_per_page' => 3,
+                'paged' => $paged,
+            ];
+
+			$wp_query = new \WP_Query($args);
+            $context['posts'] = new \Timber\PostQuery($wp_query);
+
 			Timber::render('page-tanaman-hias.twig', $context);
 			return false;
 		}
 
-		// fallback
 		return $template;
 	}
 }
+
 // This class handles the custom routes for the "tanaman-hias" page.
 // It checks if the current request is for the "tanaman-hias" page and renders
 // the appropriate template with the posts context. If it is not, it returns the
