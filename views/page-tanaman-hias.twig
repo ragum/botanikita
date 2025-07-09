@@ -6,6 +6,19 @@
 		<h1 class="text-3xl font-bold text-green-800">Tanaman Hias</h1>
 		<p class="text-zinc-600 mt-2">Koleksi tanaman yang dirawat dengan cinta & cahaya 🌿</p>
 	</div>
+    <div class="max-w-6xl mx-auto px-4 mb-6">
+		<form method="get" class="text-sm flex flex-wrap items-center gap-2">
+			<label for="jenis" class="mr-2 text-sm font-medium text-zinc-700">Filter Jenis Tanaman:</label>
+			<select name="jenis" id="jenis" class="border px-3 py-1 rounded text-sm" onchange="this.form.submit()">
+				<option value="">Semua</option>
+				{% for term in fn('get_terms', 'jenis_tanaman') %}
+				<option value="{{ term.slug }}" {{ term.slug == fn('get_query_var', 'jenis') ? 'selected' : '' }}>
+					{{ term.name }}
+				</option>
+				{% endfor %}
+			</select>
+		</form>
+	</div>
 
 	<div class="grid gap-8 md:grid-cols-3 px-4 max-w-6xl mx-auto">
 		{% for post in posts %}
@@ -42,32 +55,11 @@
 			</div>
 		{% endfor %}
 	</div>
-    {% set pagination = posts.pagination %}
-	{% if pagination.pages > 1 %}
-		<div class="mt-12 flex justify-center">
-			<nav class="flex space-x-2 text-sm">
-				{% if pagination.prev %}
-					<a href="{{ pagination.prev.link }}" class="px-3 py-1 rounded bg-green-100 text-green-800 hover:bg-green-200">← Sebelumnya</a>
-				{% endif %}
-
-				{% for page in pagination.pages %}
-					<a href="{{ page.link }}"
-						class="px-3 py-1 rounded 
-						{% if page.current %}
-							bg-green-700 text-white
-						{% else %}
-							bg-green-100 text-green-800 hover:bg-green-200
-						{% endif %}">
-						{{ page.title }}
-					</a>
-				{% endfor %}
-
-				{% if pagination.next %}
-					<a href="{{ pagination.next.link }}" class="px-3 py-1 rounded bg-green-100 text-green-800 hover:bg-green-200">Selanjutnya →</a>
-				{% endif %}
-			</nav>
-		</div>
-	{% endif %}
+    {% set filter = fn('get_query_var', 'jenis') %}
+	{% include 'partial/pagination.twig' with {
+		pagination: posts.pagination,
+		extra: filter ? { 'jenis': filter } : {}
+	} %}
 </section>
 
 <script>

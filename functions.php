@@ -51,4 +51,13 @@ add_filter('timber/twig/environment/options', function ($options) {
     return $options;
 });
 
+add_filter('query_vars', function ($vars) {
+    $vars[] = 'jenis';
+    return $vars;
+});
+
+add_action('init', function () {
+    add_rewrite_tag('%paged%', '([0-9]+)');
+});
+
 new StarterSite();

@@ -1,64 +1,40 @@
-{% if posts.pagination.pages is not empty %}
-    <nav class="pagination-block">
-        <ul class="pagination">
+{% set base = base ?? site.url ~ '/' %}
+{% set extra = extra ?? {} %}
 
-            {# First #}
-            {% if posts.pagination.pages|first and posts.pagination.pages|first.current != true %}
-                <li class="first btn">
-                    <a href="{{ posts.pagination.pages|first.link }}">First</a>
-                </li>
-            {% else %}
-                <li class="first btn disabled">
-                    <button disabled>First</button>
-                </li>
-            {% endif %}
+{% if pagination.pages|length > 1 %}
+  <div class="mt-12 flex justify-center">
+    <nav class="flex space-x-2 text-sm">
 
-            {# Previous #}
-            {% if posts.pagination.prev %}
-                <li class="prev btn">
-                    <a href="{{ posts.pagination.prev.link }}">Previous</a>
-                </li>
-            {% else %}
-                <li class="prev btn disabled">
-                    <button disabled>Previous</button>
-                </li>
-            {% endif %}
+      {# ← Sebelumnya #}
+      {% if pagination.prev and pagination.prev.link %}
+        <a href="{{ fn('add_query_arg', extra, pagination.prev.link) }}"
+           class="px-3 py-1 rounded bg-green-100 text-green-800 hover:bg-green-200">
+          ← Sebelumnya
+        </a>
+      {% endif %}
 
-            {# Pages #}
-            {% for page in posts.pagination.pages %}
-                {% if page.link %}
-                    <li>
-                        <a href="{{ page.link }}" class="{{ page.class }}">{{ page.title }}</a>
-                    </li>
-                {% else %}
-                    <li class="current">
-                        <span class="{{ page.class }}">{{ page.title }}</span>
-                    </li>
-                {% endif %}
-            {% endfor %}
+      {# Numbered Pages #}
+      {% for page in pagination.pages %}
+        {% if page.current %}
+          <span class="px-3 py-1 rounded bg-green-700 text-white">
+            {{ page.title }}
+          </span>
+        {% elseif page.link %}
+          <a href="{{ fn('add_query_arg', extra, page.link) }}"
+             class="px-3 py-1 rounded bg-green-100 text-green-800 hover:bg-green-200">
+            {{ page.title }}
+          </a>
+        {% endif %}
+      {% endfor %}
 
-            {# Next #}
-            {% if posts.pagination.next %}
-                <li class="next btn">
-                    <a href="{{ posts.pagination.next.link }}">Next</a>
-                </li>
-            {% else %}
-                <li class="next btn disabled">
-                    <button disabled>Next</button>
-                </li>
-            {% endif %}
+      {# Selanjutnya → #}
+      {% if pagination.next and pagination.next.link %}
+        <a href="{{ fn('add_query_arg', extra, pagination.next.link) }}"
+           class="px-3 py-1 rounded bg-green-100 text-green-800 hover:bg-green-200">
+          Selanjutnya →
+        </a>
+      {% endif %}
 
-            {# Last #}
-            {% if posts.pagination.pages|last and posts.pagination.pages|last.current != true %}
-                <li class="last btn">
-                    <a href="{{ posts.pagination.pages|last.link }}">Last</a>
-                </li>
-            {% else %}
-                <li class="last btn disabled">
-                    <button disabled>Last</button>
-                </li>
-            {% endif %}
-
-        </ul>
     </nav>
+  </div>
 {% endif %}
