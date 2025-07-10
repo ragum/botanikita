@@ -74,4 +74,17 @@ add_action('init', function () {
 	]);
 });
 
+add_action('init', function () {
+	register_post_type('jurnal', [
+		'labels' => [
+			'name' => 'Jurnal Botani',
+			'singular_name' => 'Jurnal',
+		],
+		'public' => true,
+		'has_archive' => true,
+		'rewrite' => ['slug' => 'jurnal-botani'],
+		'show_in_rest' => true,
+		'supports' => ['title', 'editor', 'thumbnail'],
+	]);
+});
 new StarterSite();
