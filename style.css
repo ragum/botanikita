@@ -1024,6 +1024,10 @@ video {
   margin-top: 2.5rem;
   margin-bottom: 2.5rem;
 }
+.my-6 {
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+}
 .mb-10 {
   margin-bottom: 2.5rem;
 }
@@ -1077,6 +1081,9 @@ video {
 }
 .mt-16 {
   margin-top: 4rem;
+}
+.mt-3 {
+  margin-top: 0.75rem;
 }
 .line-clamp-3 {
   overflow: hidden;
@@ -1237,6 +1244,10 @@ video {
 .rounded-xl {
   border-radius: 0.75rem;
 }
+.rounded-t {
+  border-top-left-radius: 0.25rem;
+  border-top-right-radius: 0.25rem;
+}
 .border {
   border-width: 1px;
 }
@@ -1287,6 +1298,10 @@ video {
 .bg-green-700 {
   --tw-bg-opacity: 1;
   background-color: rgb(21 128 61 / var(--tw-bg-opacity));
+}
+.bg-amber-50 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(255 251 235 / var(--tw-bg-opacity));
 }
 .bg-cover {
   background-size: cover;
@@ -1480,6 +1495,14 @@ video {
 .text-red-500 {
   --tw-text-opacity: 1;
   color: rgb(239 68 68 / var(--tw-text-opacity));
+}
+.text-amber-600 {
+  --tw-text-opacity: 1;
+  color: rgb(217 119 6 / var(--tw-text-opacity));
+}
+.text-amber-800 {
+  --tw-text-opacity: 1;
+  color: rgb(146 64 14 / var(--tw-text-opacity));
 }
 .underline {
   text-decoration-line: underline;

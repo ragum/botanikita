@@ -1,0 +1,28 @@
+{% extends "base.twig" %}
+
+{% block content %}
+<section class="bg-green-50 py-16">
+	<div class="max-w-6xl mx-auto px-4 text-center mb-12">
+		<h1 class="text-3xl font-bold text-green-800">Tips Menanam</h1>
+		<p class="text-zinc-600 mt-2">Kumpulan panduan & trik perawatan tanaman 🌱</p>
+	</div>
+
+	<div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3 max-w-6xl mx-auto px-4">
+		{% for post in posts %}
+		<div class="bg-white rounded-xl shadow-md hover:shadow-xl transition transform hover:scale-[1.02] duration-300 flex flex-col overflow-hidden">
+			{% if post.thumbnail %}
+			<img src="{{ post.thumbnail.src('medium') }}" alt="{{ post.title }}" class="w-full h-48 object-cover">
+			{% endif %}
+
+			<div class="p-5 flex flex-col flex-1 justify-between">
+			<h3 class="text-lg font-bold text-green-800 mb-2">{{ post.title }}</h3>
+			<p class="text-sm text-zinc-600 line-clamp-3 mb-4">{{ post.excerpt }}</p>
+			<a href="{{ post.link }}" class="inline-block text-green-600 hover:underline text-sm">Lihat Tips →</a>
+			</div>
+		</div>
+		{% endfor %}
+	</div>
+
+  	{% include 'partial/pagination.twig' with { pagination: posts.pagination } %}
+</section>
+{% endblock %}

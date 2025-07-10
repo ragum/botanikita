@@ -1,0 +1,17 @@
+{% extends "base.twig" %}
+
+{% block content %}
+<article class="max-w-3xl mx-auto px-4 py-16">
+	<h1 class="text-3xl font-bold text-green-800 mb-2">{{ post.title }}</h1>
+
+	{% if post.thumbnail %}
+		<img src="{{ post.thumbnail.src('large') }}" alt="{{ post.title }}" class="w-full rounded my-6 object-cover">
+	{% endif %}
+
+	<div class="prose prose-zinc max-w-none leading-relaxed">
+		{{ post.content }}
+	</div>
+
+	<a href="{{ site.url }}/tips-menanam" class="inline-block mt-6 text-green-600 hover:underline text-sm">← Kembali ke Tips</a>
+</article>
+{% endblock %}

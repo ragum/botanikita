@@ -60,4 +60,18 @@ add_action('init', function () {
     add_rewrite_tag('%paged%', '([0-9]+)');
 });
 
+add_action('init', function () {
+	register_post_type('tips', [
+		'labels' => [
+			'name' => 'Tips',
+			'singular_name' => 'Tips',
+		],
+		'public' => true,
+		'has_archive' => true,
+		'rewrite' => ['slug' => 'tips-menanam'],
+		'show_in_rest' => true,
+		'supports' => ['title', 'editor', 'thumbnail'],
+	]);
+});
+
 new StarterSite();
