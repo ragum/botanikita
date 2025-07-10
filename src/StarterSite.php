@@ -168,46 +168,46 @@ class StarterSite extends Site {
 		if ($template === false) return false;
 
 		if ( is_post_type_archive('tanaman') ) {
-	$context = Timber::context();
+			$context = Timber::context();
 
-		$paged = max(1, (int) get_query_var('paged'));
-		$filter_jenis = get_query_var('jenis');
+			$paged = max(1, (int) get_query_var('paged'));
+			$filter_jenis = get_query_var('jenis');
 
-		// Query dasar
-		$args = [
-			'post_type' => 'tanaman',
-			'posts_per_page' => get_option('posts_per_page'),
-			'paged' => $paged,
-		];
-
-		// Tambah filter jika ada
-		if ($filter_jenis) {
-			$args['tax_query'] = [
-				[
-					'taxonomy' => 'jenis_tanaman',
-					'field'    => 'slug',
-					'terms'    => $filter_jenis,
-				]
+			// Query dasar
+			$args = [
+				'post_type' => 'tanaman',
+				'posts_per_page' => get_option('posts_per_page'),
+				'paged' => $paged,
 			];
-		}
 
-		$query = new \WP_Query($args);
-
-		// Jika hasil kosong di page > 1, reset ke halaman 1 (tanpa redirect)
-		if ($paged > 1 && $query->found_posts <= 0) {
-			$new_url = get_post_type_archive_link('tanaman');
+			// Tambah filter jika ada
 			if ($filter_jenis) {
-				$new_url = add_query_arg('jenis', $filter_jenis, $new_url);
+				$args['tax_query'] = [
+					[
+						'taxonomy' => 'jenis_tanaman',
+						'field'    => 'slug',
+						'terms'    => $filter_jenis,
+					]
+				];
 			}
-			wp_redirect($new_url);
-			exit;
+
+			$query = new \WP_Query($args);
+
+			// Jika hasil kosong di page > 1, reset ke halaman 1 (tanpa redirect)
+			if ($paged > 1 && $query->found_posts <= 0) {
+				$new_url = get_post_type_archive_link('tanaman');
+				if ($filter_jenis) {
+					$new_url = add_query_arg('jenis', $filter_jenis, $new_url);
+				}
+				wp_redirect($new_url);
+				exit;
+			}
+
+			$context['posts'] = new \Timber\PostQuery($query);
+
+			Timber::render('archive-tanaman.twig', $context);
+			return false;
 		}
-
-		$context['posts'] = new \Timber\PostQuery($query);
-
-		Timber::render('archive-tanaman.twig', $context);
-		return false;
-	}
 
 
 		// fallback ke default WP template loader

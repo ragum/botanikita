@@ -6,43 +6,67 @@ use Timber\Timber;
 class PageRoutes {
 	public static function handle($template) {
 		if (is_page('tanaman-hias')) {
-        $context = Timber::context();
-        $paged = get_query_var('paged') ?: 1;
-        $filter_jenis = get_query_var('jenis');
+            $context = Timber::context();
+            $paged = get_query_var('paged') ?: 1;
+            $filter_jenis = get_query_var('jenis');
 
-        $args = [
-            'post_type' => 'tanaman',
-            'posts_per_page' => get_option('posts_per_page'),
-            'paged' => $paged,
-        ];
+            $args = [
+                'post_type' => 'tanaman',
+                'posts_per_page' => get_option('posts_per_page'),
+                'paged' => $paged,
+            ];
 
-        if ($filter_jenis) {
-            $args['tax_query'] = [[
-                'taxonomy' => 'jenis_tanaman',
-                'field' => 'slug',
-                'terms' => $filter_jenis,
-            ]];
-        }
-        error_log('paged = ' . get_query_var('paged'));
-        $query = new \WP_Query($args);
+            if ($filter_jenis) {
+                $args['tax_query'] = [[
+                    'taxonomy' => 'jenis_tanaman',
+                    'field' => 'slug',
+                    'terms' => $filter_jenis,
+                ]];
+            }
+            error_log('paged = ' . get_query_var('paged'));
+            $query = new \WP_Query($args);
 
-        // ⛔ Tambahkan redirect jika page > max pages
-        if ( $paged > 1 && ( $query->post_count === 0 || $paged > $query->max_num_pages ) ) {
-            $redirect_url = get_permalink();
-            if ( $filter_jenis ) {
-                $redirect_url = add_query_arg('jenis', $filter_jenis, $redirect_url);
+            // ⛔ Tambahkan redirect jika page > max pages
+            if ( $paged > 1 && ( $query->post_count === 0 || $paged > $query->max_num_pages ) ) {
+                $redirect_url = get_permalink();
+                if ( $filter_jenis ) {
+                    $redirect_url = add_query_arg('jenis', $filter_jenis, $redirect_url);
+                }
+
+                error_log('⛔ Redirect triggered because page ' . $paged . ' has no posts or exceeds max pages');
+                wp_redirect( $redirect_url );
+                exit;
             }
 
-            error_log('⛔ Redirect triggered because page ' . $paged . ' has no posts or exceeds max pages');
-            wp_redirect( $redirect_url );
-            exit;
+
+            $context['posts'] = new \Timber\PostQuery($query);
+            Timber::render('page-tanaman-hias.twig', $context);
+            return false;
         }
 
+        if (is_singular('tanaman')) {
+            $context = Timber::context();
+            $post = Timber::get_post();
+            $context['post'] = $post;
 
-        $context['posts'] = new \Timber\PostQuery($query);
-        Timber::render('page-tanaman-hias.twig', $context);
-        return false;
-    }
+            $terms = wp_get_post_terms($post->ID, 'jenis_tanaman', ['fields' => 'slugs']);
+
+            if ($terms) {
+                $context['related_posts'] = Timber::get_posts([
+                    'post_type' => 'tanaman',
+                    'posts_per_page' => 3,
+                    'post__not_in' => [$post->ID],
+                    'tax_query' => [[
+                        'taxonomy' => 'jenis_tanaman',
+                        'field' => 'slug',
+                        'terms' => $terms,
+                    ]]
+                ]);
+            }
+
+            Timber::render('single-tanaman.twig', $context);
+            return false;
+        }
 
 		return $template;
 	}

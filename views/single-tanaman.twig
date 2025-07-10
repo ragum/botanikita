@@ -28,10 +28,52 @@
 			{% endfor %}
 		</p>
 	{% endif %}
+	{% if related_posts %}
+		<section class="mt-16 border-t pt-10">
+			<h2 class="text-2xl font-bold text-green-800 mb-6">Tanaman Terkait 🌿</h2>
 
-	<a href="/" id="kembali-link" class="inline-block mt-6 text-green-600 hover:underline text-sm">
-		← Kembali
-	</a>
+			<div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+				{% for related in related_posts %}
+					<div class="bg-white rounded-xl shadow hover:shadow-md transition overflow-hidden h-full flex flex-col">
+						{% if related.thumbnail %}
+							<img src="{{ related.thumbnail.src('medium') }}" alt="{{ related.title }}" class="w-full h-40 object-cover">
+						{% endif %}
+
+						<div class="p-4 flex flex-col justify-between flex-1">
+							<div>
+								<h3 class="text-green-800 font-semibold text-lg mb-1">
+									<a href="{{ related.link }}" class="hover:underline">{{ related.title }}</a>
+								</h3>
+								<p class="text-sm text-zinc-600 line-clamp-2">
+									{{ related.meta('deskripsi') }}
+								</p>
+							</div>
+
+							<div class="mt-4">
+								<a href="{{ related.link }}" class="text-sm text-green-600 hover:underline">Lihat Detail →</a>
+							</div>
+						</div>
+					</div>
+				{% endfor %}
+			</div>
+		</section>
+	{% endif %}
+
+	{% set referrer = fn('wp_get_referer') %}
+	{% set back_url = site.url ~ '/tanaman' %}
+
+	{% if referrer is not empty %}
+		{% if 'tanaman-hias' in referrer %}
+			{% set back_url = site.url ~ '/tanaman-hias' %}
+		{% elseif '/jenis-tanaman/' in referrer %}
+			{% set back_url = referrer %}
+		{% elseif '/tanaman' in referrer %}
+			{% set back_url = site.url ~ '/tanaman' %}
+		{% endif %}
+	{% endif %}
+
+	<a href="{{ back_url }}" class="inline-block mt-6 text-green-600 hover:underline text-sm">← Kembali ke daftar tanaman</a>
+
 </article>
 <script>
 	document.addEventListener('DOMContentLoaded', function () {
