@@ -2,16 +2,52 @@
 
 {% block content %}
 <article class="max-w-3xl mx-auto px-4 py-16">
-	<h1 class="text-3xl font-bold text-green-800 mb-2">{{ post.title }}</h1>
+	<p class="text-sm text-zinc-500 mb-2">{{ post.date('F j, Y') }}</p>
+
+	<h1 class="text-3xl font-bold text-green-800 mb-4">{{ post.title }}</h1>
 
 	{% if post.thumbnail %}
-		<img src="{{ post.thumbnail.src('large') }}" alt="{{ post.title }}" class="w-full rounded my-6 object-cover">
+		<img src="{{ post.thumbnail.src('large') }}" alt="{{ post.title }}" class="rounded w-full object-cover mb-6" />
 	{% endif %}
 
-	<div class="prose prose-zinc max-w-none leading-relaxed">
+	<div class="prose prose-zinc max-w-none leading-relaxed mb-6">
 		{{ post.content }}
 	</div>
 
-	<a href="{{ site.url }}/tips-menanam" class="inline-block mt-6 text-green-600 hover:underline text-sm">← Kembali ke Tips</a>
+	<a href="{{ site.url }}/tips" class="inline-block mt-4 text-green-600 hover:underline text-sm">← Kembali ke daftar tips</a>
+
+	{# Optional: Tips Lainnya #}
+	{% set related = fn('Timber\\Timber::get_posts', {
+        post_type: 'tips',
+        posts_per_page: 3,
+        post__not_in: [post.ID]
+    }) %}
+
+	{% if related %}
+    <section class="mt-16">
+        <h2 class="text-xl font-semibold text-green-800 mb-4">Jurnal Lainnya</h2>
+        <div class="grid md:grid-cols-3 gap-6">
+            {% for r in related %}
+            <div class="bg-white rounded-xl shadow hover:shadow-lg transition hover:scale-[1.02] duration-300 overflow-hidden flex flex-col h-full">
+                {% if r.thumbnail %}
+                    <img src="{{ r.thumbnail.src('medium') }}" alt="{{ r.title }}" class="w-full h-40 object-cover">
+                {% endif %}
+                <div class="p-4 flex flex-col justify-between flex-1">
+                    <div>
+                        <h3 class="text-md font-semibold text-green-800 mb-2">
+							{{ r.title|length > 30 ? r.title|slice(0, 30) ~ '…' : r.title }}
+						</h3>
+                        <p class="text-sm text-zinc-600 line-clamp-3">{{ r.excerpt }}</p>
+                    </div>
+                    <div class="mt-4">
+                        <a href="{{ r.link }}" class="text-green-600 hover:underline text-sm">Baca →</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+    {% endif %}
+
 </article>
 {% endblock %}
