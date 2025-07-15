@@ -1,0 +1,18 @@
+<section class="bg-green-50 py-16 px-6" id="testimonials">
+  <div class="max-w-6xl mx-auto">
+    <h2 class="text-2xl font-semibold text-green-900 mb-8">Kolaborasi & Testimoni</h2>
+    <div class="grid md:grid-cols-3 gap-6">
+      {% for testimonial in testimonials %}
+        <div class="bg-white p-6 rounded-xl shadow hover:shadow-lg transition">
+          <p class="italic text-green-800">"{{ testimonial.text }}"</p>
+          <div class="mt-4 text-sm text-gray-700">
+            <p class="font-semibold">{{ testimonial.name }}</p>
+            <p>{{ testimonial.company }}</p>
+          </div>
+        </div>
+      {% else %}
+        <p>Tidak ada testimoni untuk ditampilkan.</p>
+      {% endfor %}
+    </div>
+  </div>
+</section>
