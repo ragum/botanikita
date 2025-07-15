@@ -1,0 +1,36 @@
+{% extends "base.twig" %}
+
+{% block content %}
+<section class="bg-white py-20 px-6">
+  <div class="max-w-3xl mx-auto">
+    <h1 class="text-3xl font-bold text-green-800 mb-6 text-center">Tentang Botanikita</h1>
+    <p class="text-zinc-700 leading-relaxed mb-6">
+      <strong>Botanikita</strong> adalah proyek portofolio pribadi yang berfokus pada dunia tanaman hias, edukasi botani, dan eksplorasi UI yang bersih serta alami.
+      Proyek ini dirancang untuk memperlihatkan kemampuan saya dalam membangun situs WordPress modern dengan pendekatan frontend yang rapi, ringan, dan modular.
+    </p>
+
+    <h2 class="text-xl font-semibold text-green-700 mt-10 mb-2">Teknologi yang Digunakan</h2>
+    <ul class="list-disc list-inside text-zinc-700 space-y-1">
+      <li>WordPress (Custom Theme)</li>
+      <li>Timber (Twig templating untuk WordPress)</li>
+      <li>Tailwind CSS (Utility-first styling)</li>
+      <li>Alpine.js (untuk interaksi ringan)</li>
+      <li>ACF Pro (untuk konten dinamis)</li>
+    </ul>
+
+    <h2 class="text-xl font-semibold text-green-700 mt-10 mb-2">Peran Saya</h2>
+    <ul class="list-disc list-inside text-zinc-700 space-y-1">
+      <li>Desain UI dan layout halaman</li>
+      <li>Pembuatan custom post type: <em>tanaman</em> & <em>tips</em></li>
+      <li>Integrasi konten dengan Timber & Twig</li>
+      <li>Optimasi responsif dan struktur navigasi</li>
+    </ul>
+
+    <div class="mt-12 text-center">
+      <a href="/" class="inline-block bg-green-700 text-white px-6 py-3 rounded-full hover:bg-green-800 transition">
+        Kembali ke Beranda
+      </a>
+    </div>
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,72 @@
+{% extends "base.twig" %}
+
+{% block content %}
+<section class="bg-green-900 py-20 px-6 text-white" id="contact">
+    <div class="max-w-xl mx-auto text-center">
+        <h1 class="text-3xl font-bold mb-6">Hubungi Kami</h1>
+        <p class="mb-10 text-zinc-100">Jika kamu punya pertanyaan, kolaborasi, atau sekadar ingin menyapa — jangan ragu untuk mengirim pesan melalui form di bawah ini 🌿</p>
+
+        <form id="contact-form" class="grid gap-4 text-left">
+            <input type="text" name="name" placeholder="Nama" required class="p-3 rounded bg-white text-black">
+            <input type="email" name="email" placeholder="Email" required class="p-3 rounded bg-white text-black">
+            <textarea name="message" rows="4" placeholder="Pesan" required class="p-3 rounded bg-white text-black"></textarea>
+            <button type="submit" class="bg-white text-green-900 px-6 py-2 rounded hover:bg-green-200">Kirim Pesan</button>
+        </form>
+
+        <div id="form-status" class="fixed top-6 left-1/2 transform -translate-x-1/2 bg-green-800 text-white text-sm px-4 py-2 rounded shadow-md hidden z-50 transition-opacity duration-300">
+            Mengirim pesan...
+        </div>
+    </div>
+</section>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const form = document.getElementById('contact-form');
+        const status = document.getElementById('form-status');
+
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const formData = {
+                name: form.name.value,
+                email: form.email.value,
+                message: form.message.value
+            };
+
+            status.textContent = "Mengirim pesan...";
+            status.classList.remove('hidden');
+            status.classList.add('opacity-100');
+
+            fetch('https://formspree.io/f/xjkwnree', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify(formData),
+            })
+            .then(response => {
+                if (response.ok) {
+                    status.textContent = "Terima kasih! Pesan kamu sudah terkirim.";
+                    form.reset();
+                } else {
+                    response.json().then(data => {
+                    status.textContent = data.error || "Gagal mengirim pesan.";
+                    });
+                }
+            })
+            .catch(() => {
+                status.textContent = "Terjadi kesalahan. Coba lagi nanti.";
+            })
+            .finally(() => {
+                setTimeout(() => {
+                    status.classList.add('opacity-0');
+                    setTimeout(() => {
+                    status.classList.add('hidden');
+                    }, 300);
+                }, 5000);
+            });
+        });
+    });
+</script>
+{% endblock %}
