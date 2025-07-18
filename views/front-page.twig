@@ -2,174 +2,161 @@
 
 {% block content %}
 
-	{# HERO SECTION #}
-	<section
-		class="relative md:bg-fixed bg-center bg-cover bg-no-repeat text-white py-32 px-4 text-center"
-		style="background-image: url('{{ site.theme.link }}/assets/bg-hero.jpg');"
-	>
-		<div class="bg-black/50 backdrop-blur-sm absolute inset-0 z-0"></div>
-		<div class="relative z-10 max-w-3xl mx-auto">
-			<h1 class="text-4xl md:text-5xl font-bold leading-tight drop-shadow-md">
-				Selamat datang di <span class="text-green-300">Botanikita</span>
-			</h1>
-			<p class="mt-4 text-lg drop-shadow-sm">
-				Merawat tanaman dengan cinta & cahaya 🌿
-			</p>
-			<a href="#eksplor" class="mt-8 inline-block bg-green-600 text-white px-6 py-3 rounded-full hover:bg-green-700 transition">
-				Eksplor Tanaman
-			</a>
-		</div>
-	</section>
+{% set lang = function('pll_current_language') ?? 'id' %}
 
-	{# 3 BOX GRID SECTION #}
-	<section id="eksplor" class="py-16 px-4">
-		<div class="max-w-6xl mx-auto">
-			<div class="grid md:grid-cols-3 gap-6">
-				<!-- Tanaman -->
-				<div class="bg-white shadow rounded-lg p-6 text-center hover:shadow-lg transition">
-					<i class="ph ph-plant text-green-600 text-5xl mb-4 transform transition group-hover:scale-110"></i>
-					<h3 class="text-xl font-semibold text-green-800 mb-2">Tanaman Hias</h3>
-					<p class="text-sm text-zinc-600 mb-4">Lihat koleksi tanaman hias favorit kami yang mudah dirawat dan menenangkan suasana rumah.</p>
-					<a href="/tanaman" class="text-green-600 hover:underline text-sm font-medium">Lihat Tanaman →</a>
-				</div>
-				<!-- Tips -->
-				<div class="bg-white shadow rounded-lg p-6 text-center hover:shadow-lg transition">
-					<i class="ph ph-leaf text-green-600 text-5xl mb-4 transform transition group-hover:scale-110"></i>
-					<h3 class="text-xl font-semibold text-green-800 mb-2">Tips Menanam</h3>
-					<p class="text-sm text-zinc-600 mb-4">Panduan sederhana untuk kamu yang ingin mulai bertanam tanpa ribet.</p>
-					<a href="/tips-menanam" class="text-green-600 hover:underline text-sm font-medium">Lihat Tips →</a>
-				</div>
-				<!-- Jurnal -->
-				<div class="bg-white shadow rounded-lg p-6 text-center hover:shadow-lg transition">
-					<i class="ph ph-book-open text-green-600 text-5xl mb-4 transform transition group-hover:scale-110"></i>
-					<h3 class="text-xl font-semibold text-green-800 mb-2">Jurnal Botani</h3>
-					<p class="text-sm text-zinc-600 mb-4">Kisah pertumbuhan dan perawatan tanaman favorit kami, ditulis dengan penuh cinta.</p>
-					<a href="/jurnal-botani" class="text-green-600 hover:underline text-sm font-medium">Baca Jurnal →</a>
-				</div>
+{# HERO SECTION #}
+<section
+	class="relative md:bg-fixed bg-center bg-cover bg-no-repeat text-white py-32 px-4 text-center"
+	style="background-image: url('{{ site.theme.link }}/assets/bg-hero.jpg');"
+>
+	<div class="bg-black/50 backdrop-blur-sm absolute inset-0 z-0"></div>
+	<div class="relative z-10 max-w-3xl mx-auto">
+		<h1 class="text-4xl md:text-5xl font-bold leading-tight drop-shadow-md">
+			{{ lang == 'en' ? 'Welcome to' : 'Selamat datang di' }} <span class="text-green-300">Botanikita</span>
+		</h1>
+		<p class="mt-4 text-lg drop-shadow-sm">
+			{{ lang == 'en' ? 'Caring for plants with light & love 🌿' : 'Merawat tanaman dengan cinta & cahaya 🌿' }}
+		</p>
+		<a href="#eksplor" class="mt-8 inline-block bg-green-600 text-white px-6 py-3 rounded-full hover:bg-green-700 transition">
+			{{ lang == 'en' ? 'Explore Plants' : 'Eksplor Tanaman' }}
+		</a>
+	</div>
+</section>
+
+{# 3 BOX GRID SECTION #}
+<section id="eksplor" class="py-16 px-4">
+	<div class="max-w-6xl mx-auto">
+		<div class="grid md:grid-cols-3 gap-6">
+			<!-- Tanaman -->
+			<div class="bg-white shadow rounded-lg p-6 text-center hover:shadow-lg transition">
+				<i class="ph ph-plant text-green-600 text-5xl mb-4"></i>
+				<h3 class="text-xl font-semibold text-green-800 mb-2">
+					{{ lang == 'en' ? 'Ornamental Plants' : 'Tanaman Hias' }}
+				</h3>
+				<p class="text-sm text-zinc-600 mb-4">
+					{{ lang == 'en' ? 'Explore our favorite plant collection — easy to care for and brings calm to your space.' : 'Lihat koleksi tanaman hias favorit kami yang mudah dirawat dan menenangkan suasana rumah.' }}
+				</p>
+				<a href="/tanaman" class="text-green-600 hover:underline text-sm font-medium">
+					{{ lang == 'en' ? 'See Plants →' : 'Lihat Tanaman →' }}
+				</a>
+			</div>
+
+			<!-- Tips -->
+			<div class="bg-white shadow rounded-lg p-6 text-center hover:shadow-lg transition">
+				<i class="ph ph-leaf text-green-600 text-5xl mb-4"></i>
+				<h3 class="text-xl font-semibold text-green-800 mb-2">
+					{{ lang == 'en' ? 'Planting Tips' : 'Tips Menanam' }}
+				</h3>
+				<p class="text-sm text-zinc-600 mb-4">
+					{{ lang == 'en' ? 'Simple guides for anyone who wants to grow plants effortlessly.' : 'Panduan sederhana untuk kamu yang ingin mulai bertanam tanpa ribet.' }}
+				</p>
+				<a href="/tips-menanam" class="text-green-600 hover:underline text-sm font-medium">
+					{{ lang == 'en' ? 'View Tips →' : 'Lihat Tips →' }}
+				</a>
+			</div>
+
+			<!-- Jurnal -->
+			<div class="bg-white shadow rounded-lg p-6 text-center hover:shadow-lg transition">
+				<i class="ph ph-book-open text-green-600 text-5xl mb-4"></i>
+				<h3 class="text-xl font-semibold text-green-800 mb-2">
+					{{ lang == 'en' ? 'Botanical Journal' : 'Jurnal Botani' }}
+				</h3>
+				<p class="text-sm text-zinc-600 mb-4">
+					{{ lang == 'en' ? 'Stories of growth and care from our plant journey — written with love.' : 'Kisah pertumbuhan dan perawatan tanaman favorit kami, ditulis dengan penuh cinta.' }}
+				</p>
+				<a href="/jurnal-botani" class="text-green-600 hover:underline text-sm font-medium">
+					{{ lang == 'en' ? 'Read Journal →' : 'Baca Jurnal →' }}
+				</a>
 			</div>
 		</div>
-	</section>
+	</div>
+</section>
 
-	{# KOLEKSI TANAMAN #}
-	<section class="bg-green-50 py-20" id="koleksi">
-		<div class="max-w-6xl mx-auto px-4">
-			<h2 class="text-2xl font-semibold text-green-900 mb-8 text-center">Koleksi Tanaman</h2>
-			<div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-				{% for post in koleksi %}
-					<div class="bg-white rounded-xl shadow-md hover:shadow-lg transition-all duration-300 transform-gpu hover:scale-105 flex flex-col h-full">
-						{% if post.thumbnail %}
-							<img src="{{ post.thumbnail.src('medium') }}" alt="{{ post.title }}" class="w-full h-48 object-cover">
-						{% endif %}
-						<div class="p-5 flex flex-col flex-1">
-							<h3 class="text-lg font-bold text-green-800 mb-1">{{ post.title }}</h3>
-							<p class="text-sm text-zinc-600 line-clamp-3 mb-3">{{ post.meta('deskripsi') }}</p>
-							{% set terms = post.terms('jenis_tanaman') %}
-							{% if terms %}
-								<div class="flex flex-wrap gap-2 mt-auto">
-									{% for term in terms %}
-										<a href="{{ term.link }}" class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full hover:bg-green-200 transition">{{ term.name }}</a>
-									{% endfor %}
-								</div>
-							{% endif %}
-							<div class="mt-4">
-								<a href="{{ post.link }}" class="inline-block text-green-600 hover:underline text-sm font-medium">Lihat Detail →</a>
+{# KOLEKSI TANAMAN #}
+<section class="bg-green-50 py-20" id="koleksi">
+	<div class="max-w-6xl mx-auto px-4">
+		<h2 class="text-2xl font-semibold text-green-900 mb-8 text-center">
+			{{ lang == 'en' ? 'Plant Collection' : 'Koleksi Tanaman' }}
+		</h2>
+		<div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+			{% for post in koleksi %}
+				<div class="bg-white rounded-xl shadow-md hover:shadow-lg transition-all duration-300 transform-gpu hover:scale-105 flex flex-col h-full">
+					{% if post.thumbnail %}
+						<img src="{{ post.thumbnail.src('medium') }}" alt="{{ post.title }}" class="w-full h-48 object-cover">
+					{% endif %}
+					<div class="p-5 flex flex-col flex-1">
+						<h3 class="text-lg font-bold text-green-800 mb-1">{{ post.title }}</h3>
+						<p class="text-sm text-zinc-600 line-clamp-3 mb-3">{{ post.meta('deskripsi') }}</p>
+						{% set terms = post.terms('jenis_tanaman') %}
+						{% if terms %}
+							<div class="flex flex-wrap gap-2 mt-auto">
+								{% for term in terms %}
+									<a href="{{ term.link }}" class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full hover:bg-green-200 transition">{{ term.name }}</a>
+								{% endfor %}
 							</div>
-						</div>
-					</div>
-				{% endfor %}
-			</div>
-		</div>
-	</section>
-
-	{# TIPS SECTION #}
-	<section class="bg-white py-20" id="tips">
-		<div class="max-w-6xl mx-auto px-4">
-			<h2 class="text-2xl font-semibold text-green-900 mb-8 text-center">Tips & Artikel</h2>
-			<div class="grid gap-6 md:grid-cols-3">
-				{% for post in tips %}
-					<div class="bg-white rounded-xl shadow-md hover:shadow-lg overflow-hidden transition duration-300 transform hover:scale-105 flex flex-col h-full">
-						{% if post.thumbnail %}
-							<img src="{{ post.thumbnail.src('medium') }}" alt="{{ post.title }}" class="w-full h-48 object-cover">
 						{% endif %}
-						<div class="p-5 flex flex-col justify-between flex-1">
-							<h3 class="text-lg font-semibold text-green-800 mb-2">{{ post.title }}</h3>
-							<p class="text-sm text-zinc-600 line-clamp-3 mb-4">{{ post.excerpt }}</p>
-							<a href="{{ post.link }}" class="text-green-600 hover:underline text-sm font-medium mt-auto">Lihat Detail →</a>
+						<div class="mt-4">
+							<a href="{{ post.link }}" class="inline-block text-green-600 hover:underline text-sm font-medium">
+								{{ lang == 'en' ? 'View Details →' : 'Lihat Detail →' }}
+							</a>
 						</div>
 					</div>
-				{% endfor %}
-			</div>
+				</div>
+			{% endfor %}
 		</div>
-	</section>
+	</div>
+</section>
 
-	{# TESTIMONIAL SECTION #}
-	{% include "partial/_testimonials.twig" %}
-
-	{# CONTACT SECTION #}
-	<section class="bg-green-900 py-20 px-6 text-white" id="contact">
-		<div class="max-w-xl mx-auto text-center">
-			<h2 class="text-3xl font-bold mb-6">Hubungi Kami</h2>
-            <p class="mb-10 text-zinc-100">Jika kamu punya pertanyaan, kolaborasi, atau sekadar ingin menyapa — jangan ragu untuk mengirim pesan melalui form di bawah ini 🌿</p>
-			<form id="contact-form" class="grid gap-4 text-left">
-                <input type="text" name="name" placeholder="Nama" required class="p-3 rounded bg-white text-black">
-                <input type="email" name="email" placeholder="Email" required class="p-3 rounded bg-white text-black">
-                <textarea name="message" rows="4" placeholder="Pesan" required class="p-3 rounded bg-white text-black"></textarea>
-                <button type="submit" class="bg-white text-green-900 px-6 py-2 rounded hover:bg-green-200">Kirim Pesan</button>
-            </form>
-
-            <div id="form-status" class="fixed top-14 left-1/2 transform -translate-x-1/2 bg-green-800 text-white px-4 py-2 rounded shadow-md hidden z-50 transition-opacity duration-300">
-                Mengirim pesan...
-            </div>
+{# TIPS SECTION #}
+<section class="bg-white py-20" id="tips">
+	<div class="max-w-6xl mx-auto px-4">
+		<h2 class="text-2xl font-semibold text-green-900 mb-8 text-center">
+			{{ lang == 'en' ? 'Tips & Articles' : 'Tips & Artikel' }}
+		</h2>
+		<div class="grid gap-6 md:grid-cols-3">
+			{% for post in tips %}
+				<div class="bg-white rounded-xl shadow-md hover:shadow-lg overflow-hidden transition duration-300 transform hover:scale-105 flex flex-col h-full">
+					{% if post.thumbnail %}
+						<img src="{{ post.thumbnail.src('medium') }}" alt="{{ post.title }}" class="w-full h-48 object-cover">
+					{% endif %}
+					<div class="p-5 flex flex-col justify-between flex-1">
+						<h3 class="text-lg font-semibold text-green-800 mb-2">{{ post.title }}</h3>
+						<p class="text-sm text-zinc-600 line-clamp-3 mb-4">{{ post.excerpt }}</p>
+						<a href="{{ post.link }}" class="text-green-600 hover:underline text-sm font-medium mt-auto">
+							{{ lang == 'en' ? 'Read More →' : 'Lihat Detail →' }}
+						</a>
+					</div>
+				</div>
+			{% endfor %}
 		</div>
-        <script>
-            document.addEventListener('DOMContentLoaded', function () {
-                const form = document.getElementById('contact-form');
-                const status = document.getElementById('form-status');
+	</div>
+</section>
 
-                form.addEventListener('submit', function (e) {
-                    e.preventDefault();
+{# TESTIMONIAL SECTION #}
+{% include "partial/_testimonials.twig" %}
 
-                    const formData = {
-                        name: form.name.value,
-                        email: form.email.value,
-                        message: form.message.value
-                    };
+{# CONTACT SECTION #}
+<section class="bg-green-900 py-20 px-6 text-white" id="contact">
+	<div class="max-w-xl mx-auto text-center">
+		<h2 class="text-3xl font-bold mb-6">
+			{{ lang == 'en' ? 'Contact Us' : 'Hubungi Kami' }}
+		</h2>
+		<p class="mb-10 text-zinc-100">
+			{{ lang == 'en' ? 'Have questions, collaboration ideas, or just want to say hello? Feel free to send a message using the form below 🌿' : 'Jika kamu punya pertanyaan, kolaborasi, atau sekadar ingin menyapa — jangan ragu untuk mengirim pesan melalui form di bawah ini 🌿' }}
+		</p>
+		<form id="contact-form" class="grid gap-4 text-left">
+			<input type="text" name="name" placeholder="{{ lang == 'en' ? 'Your Name' : 'Nama' }}" required class="p-3 rounded bg-white text-black">
+			<input type="email" name="email" placeholder="{{ lang == 'en' ? 'Your Email' : 'Email' }}" required class="p-3 rounded bg-white text-black">
+			<textarea name="message" rows="4" placeholder="{{ lang == 'en' ? 'Your Message' : 'Pesan' }}" required class="p-3 rounded bg-white text-black"></textarea>
+			<button type="submit" class="bg-white text-green-900 px-6 py-2 rounded hover:bg-green-200">
+				{{ lang == 'en' ? 'Send Message' : 'Kirim Pesan' }}
+			</button>
+		</form>
 
-                    status.textContent = "Mengirim pesan...";
-                    status.classList.remove('hidden');
-                    status.classList.add('opacity-100');
+		<div id="form-status" class="fixed top-14 left-1/2 transform -translate-x-1/2 bg-green-800 text-white px-4 py-2 rounded shadow-md hidden z-50 transition-opacity duration-300">
+			{{ lang == 'en' ? 'Sending message...' : 'Mengirim pesan...' }}
+		</div>
+	</div>
+</section>
 
-                    fetch('https://formspree.io/f/xjkwnree', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'Accept': 'application/json'
-                        },
-                        body: JSON.stringify(formData),
-                    })
-                    .then(response => {
-                        if (response.ok) {
-                            status.textContent = "Terima kasih! Pesan kamu sudah terkirim.";
-                            form.reset();
-                        } else {
-                            response.json().then(data => {
-                            status.textContent = data.error || "Gagal mengirim pesan.";
-                            });
-                        }
-                    })
-                    .catch(() => {
-                        status.textContent = "Terjadi kesalahan. Coba lagi nanti.";
-                    })
-                    .finally(() => {
-                        setTimeout(() => {
-                            status.classList.add('opacity-0');
-                            setTimeout(() => {
-                                status.classList.add('hidden');
-                            }, 300); // sembunyi setelah animasi selesai
-                        }, 5000); // hilang setelah 5 detik
-                    });
-                });
-            });
-            </script>
-	</section>
 {% endblock %}

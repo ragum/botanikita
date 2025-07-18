@@ -1,58 +1,91 @@
-<div x-data="{ mobileOpen: false, mobileMode: true, submenuOpen: {} }">
+{% set lang = function('pll_current_language') ?? 'id' %}
+{% set location = lang == 'en' ? 'primary_en' : 'primary_id' %}
+{% set locations = function('get_nav_menu_locations') %}
+{% set menu_id = locations[location] ?? null %}
+{% set raw_items = function('wp_get_nav_menu_items', menu_id) %}
+
+{% macro build_menu_tree(items, parent_id) %}
+    {% import _self as self %}
+    {% set children = items|filter(i => i.menu_item_parent == parent_id) %}
+    {% if children %}
+        <ul class="absolute left-0 top-full bg-white shadow-md rounded-md py-2 w-48 z-50 hidden group-hover:block">
+            {% for item in children %}
+                <li class="relative group">
+                    <a href="{{ item.url }}" class="block px-4 py-2 text-sm text-green-800 hover:bg-green-100">
+                        {{ item.title }}
+                    </a>
+                    {{ self.build_menu_tree(items, item.ID) }}
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+{% endmacro %}
+
+{% import _self as macros %}
+<div x-data="{ mobileOpen: false }">
     <header class="bg-green-800 text-white">
         <div class="max-w-6xl mx-auto px-4 flex justify-between items-center">
             <a href="{{ site.url }}" class="hover:underline flex items-center gap-2">
                 <img src="{{ site.theme.link }}/assets/logo.png" alt="{{ site.name }}" class="h-16 object-contain">
             </a>
-            <!-- Hamburger -->
+
             <button 
-            class="md:hidden flex items-center"
-            @click="mobileOpen = !mobileOpen"
-            :aria-expanded="mobileOpen.toString()"
-            aria-label="Toggle Menu"
+                class="md:hidden flex items-center"
+                @click="mobileOpen = !mobileOpen"
+                :aria-expanded="mobileOpen.toString()"
+                aria-label="Toggle Menu"
             >
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
                     viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round"
-                    d="M4 6h16M4 12h16M4 18h16" />
+                        d="M4 6h16M4 12h16M4 18h16" />
                 </svg>
             </button>
 
-        <!-- Desktop Menu -->
             <nav class="hidden md:block">
-                {% include "menu.twig" with { items: menu.get_items } %}
+                {% set parents = raw_items|filter(i => i.menu_item_parent == 0) %}
+                <ul class="flex gap-6 text-sm font-medium">
+                    {% for item in parents %}
+                        <li class="relative group">
+                            <a href="{{ item.url }}" class="block py-5 hover:underline">
+                                {{ item.title }}
+                            </a>
+                            {{ macros.build_menu_tree(raw_items, item.ID) }}
+                        </li>
+                    {% endfor %}
+                </ul>
             </nav>
         </div>
     </header>
-    <!-- Off-Canvas Mobile Menu Wrapper -->
-    <div
-        x-show="mobileOpen"
+
+    <div x-show="mobileOpen"
         @click="mobileOpen = false"
-        class="fixed inset-0 bg-black/10 backdrop-blur-sm z-40 md:hidden transition-all duration-300"
-        style="display: none;"
-    ></div>
-    <div
-        x-show="mobileOpen"
+        class="fixed inset-0 bg-black/30 backdrop-blur-sm z-40 md:hidden transition-opacity"
+        x-transition.opacity
+        style="display: none;">
+    </div>
+
+    <div x-show="mobileOpen"
         @click.away="mobileOpen = false"
-        x-transition:enter="transition ease-out duration-300"
-        x-transition:enter-start="translate-x-full opacity-0"
-        x-transition:enter-end="translate-x-0 opacity-100"
-        x-transition:leave="transition ease-in duration-200"
-        x-transition:leave-start="translate-x-0 opacity-100"
-        x-transition:leave-end="translate-x-full opacity-0"
-        class="fixed top-0 right-0 h-full w-64 bg-white z-50 shadow-lg overflow-y-auto md:hidden"
-        style="display: none;"
-    >
+        x-transition:enter="transition transform ease-out duration-300"
+        x-transition:enter-start="translate-x-full"
+        x-transition:enter-end="translate-x-0"
+        x-transition:leave="transition transform ease-in duration-200"
+        x-transition:leave-start="translate-x-0"
+        x-transition:leave-end="translate-x-full"
+        class="fixed top-0 right-0 h-full w-64 bg-white text-black z-50 shadow-lg overflow-y-auto md:hidden"
+        style="display: none;">
         <div class="flex justify-end p-4">
             <button @click="mobileOpen = false" aria-label="Close Menu">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-zinc-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-            </svg>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
+                    viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
             </button>
         </div>
 
         <nav class="px-4 pb-6 text-zinc-800">
-            {% include "menu.twig" with { items: menu.get_items, mobile: true } %}
+        {% include 'menu.twig' with { items: raw_items|filter(i => i.menu_item_parent == 0), raw_items: raw_items, mobile: true } %}
         </nav>
     </div>
 </div>

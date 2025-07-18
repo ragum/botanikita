@@ -1,17 +1,19 @@
-<section class="bg-green-50 py-16 px-6" id="testimonials">
-  <div class="max-w-6xl mx-auto">
-    <h2 class="text-2xl font-semibold text-green-900 mb-8">Kolaborasi & Testimoni</h2>
+{% set lang = function('pll_current_language') ?? 'id' %}
+
+<section class="bg-green-50 py-20 px-6" id="testimonials">
+  <div class="max-w-6xl mx-auto text-center">
+    <h2 class="text-2xl font-semibold text-green-900 mb-8">
+      {{ lang == 'en' ? 'Collaboration & Testimonials' : 'Kolaborasi & Testimoni' }}
+    </h2>
     <div class="grid md:grid-cols-3 gap-6">
-      {% for testimonial in testimonials %}
-        <div class="bg-white p-6 rounded-xl shadow hover:shadow-lg transition">
-          <p class="italic text-green-800">"{{ testimonial.text }}"</p>
-          <div class="mt-4 text-sm text-gray-700">
-            <p class="font-semibold">{{ testimonial.name }}</p>
-            <p>{{ testimonial.company }}</p>
-          </div>
-        </div>
-      {% else %}
-        <p>Tidak ada testimoni untuk ditampilkan.</p>
+      {% for t in testimonials %}
+        <blockquote class="bg-white rounded-xl shadow p-6 text-left text-zinc-700">
+          <p class="mb-4 italic">“{{ t.text[lang] }}”</p>
+          <footer class="text-sm font-medium text-green-800">
+            {{ t.name }}<br>
+            <span class="text-zinc-500 font-normal">{{ t.company[lang] }}</span>
+          </footer>
+        </blockquote>
       {% endfor %}
     </div>
   </div>

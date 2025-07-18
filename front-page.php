@@ -18,20 +18,39 @@ $context['post'] = Timber::get_post();
 $context['testimonials'] = [
   [
     'name' => 'Dewi Nurhayati',
-    'company' => 'Pecinta Tanaman Hias',
-    'text' => 'Botanikita sangat membantu saya mengenal jenis-jenis tanaman hias tropis!',
+    'company' => [
+      'id' => 'Pecinta Tanaman Hias',
+      'en' => 'Tropical Plant Enthusiast',
+    ],
+    'text' => [
+      'id' => 'Botanikita sangat membantu saya mengenal jenis-jenis tanaman hias tropis!',
+      'en' => 'Botanikita really helped me get to know tropical houseplants!',
+    ],
   ],
   [
     'name' => 'Ali Rahman',
-    'company' => 'Kolektor Bonsai',
-    'text' => 'Tampilan portofolionya rapi dan informatif. Desainnya pun sangat alami.',
+    'company' => [
+      'id' => 'Kolektor Bonsai',
+      'en' => 'Bonsai Collector',
+    ],
+    'text' => [
+      'id' => 'Tampilan portofolionya rapi dan informatif. Desainnya pun sangat alami.',
+      'en' => 'The portfolio layout is neat and informative. The design feels very natural.',
+    ],
   ],
   [
     'name' => 'Sari Amelia',
-    'company' => 'Pelanggan Setia',
-    'text' => 'Saya selalu menantikan tips baru dari Botanikita setiap minggunya!',
+    'company' => [
+      'id' => 'Pelanggan Setia',
+      'en' => 'Loyal Customer',
+    ],
+    'text' => [
+      'id' => 'Saya selalu menantikan tips baru dari Botanikita setiap minggunya!',
+      'en' => 'I always look forward to new tips from Botanikita every week!',
+    ],
   ],
 ];
+
 
 $context['koleksi'] = Timber::get_posts([
   'post_type' => 'tanaman',
